@@ -11,6 +11,7 @@ namespace CS583
 {
     public class UI_Controller : MonoBehaviour
     {
+
         public Text CharNameout;
         public InputField CharNameIn;
 
@@ -31,6 +32,8 @@ namespace CS583
 
         private Text t_Wisdom;
         private Button b_Roll_Wisdom;
+
+
 
         void Start()
         {
@@ -77,40 +80,44 @@ namespace CS583
         private void CallBack_Roll_Wisdom()
         {
 
-            int wisdom = DiceRollAlgo();
-            t_Wisdom.text = wisdom.ToString();
-
+            int wisdomChanged = DiceRollAlgo();
+            t_Wisdom.text = wisdomChanged.ToString();
+            //Player_Manager.player.wisdom = wisdomChanged;
 
         }
 
         public void CallBack_Roll_Strength()
         {
-            int strength = DiceRollAlgo();
-            t_Strength.text = strength.ToString();
+            int strengthChanged = DiceRollAlgo();
+            t_Strength.text = strengthChanged.ToString();
+
 
         }
         public void CallBack_Roll_Dexterity()
         {
-            int dexterity = DiceRollAlgo();
-            t_Dexterity.text = dexterity.ToString();
+            int dexterityChanged = DiceRollAlgo();
+            t_Dexterity.text = dexterityChanged.ToString();
+
 
         }
         public void CallBack_Roll_Intelligence()
         {
-            int intelligence = DiceRollAlgo();
-            t_Intelligence.text = intelligence.ToString();
+            int intelligenceChanged = DiceRollAlgo();
+            t_Intelligence.text = intelligenceChanged.ToString();
+
 
         }
         public void CallBack_Roll_Charisma()
         {
-            int charisma = DiceRollAlgo();
-            t_Charisma.text = charisma.ToString();
+            int charismaChanged = DiceRollAlgo();
+            t_Charisma.text = charismaChanged.ToString();
+
 
         }
         public void CallBack_Roll_Constitution()
         {
-            int constitution = DiceRollAlgo();
-            t_Constitution.text = constitution.ToString();
+            int constitutionChanged = DiceRollAlgo();
+            t_Constitution.text = constitutionChanged.ToString();
 
         }
 
@@ -137,11 +144,29 @@ namespace CS583
             return outVal = d3List.Sum() + d8List.Sum() + 2;
         }
 
+        public class Race
+        {
+            public string Name = "";
+            public string rDescription = "";
+            public int HitPoints = 0;
+            public float runningSpeed = 0;
+            public float walkingSpeed = 0;
+            public float jumpingHeightSpeed = 0;
+            public string languages = "Common";
+            public bool nightVision = false;
+
+        }
+
+
+
         //quit button
         public void quitButton()
         {
-            Debug.Log("EXIT");
+            #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+            #endif
             Application.Quit();
+
         }
 
     }
