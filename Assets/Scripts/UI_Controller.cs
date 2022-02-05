@@ -29,6 +29,13 @@ namespace CS583
             textOut_Strength.text = strstrength.ToString();
 
         }
+        //quit button
+        public void quitButton()
+        {
+            Debug.Log("EXIT");
+            Application.Quit();
+        }
+
     }
 
 }
