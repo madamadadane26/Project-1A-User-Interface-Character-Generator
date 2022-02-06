@@ -6,15 +6,54 @@ using System.IO;
 using Random = System.Random;
 using System.Linq;
 
-
 namespace CS583
 {
-    public class UI_Controller : MonoBehaviour
+    public class UI_Controller : Player_Manager
     {
 
         public Text CharNameout;
         public InputField CharNameIn;
 
+        public Dropdown dropdownRace;
+        public Dropdown dropdownClass;
+
+        public Text race_Description;
+        public Text class_Description;
+
+
+
+        List<string> raceListdesc = new List<string>() {
+        "Character Description",
+        "Your draconic heritage manifests in a variety of traits you share with other dragonborn.",
+        "Your dwarf character has an assortment of abilities, part and parcel of dwarven nature.",
+        "Your elf character has a variety of natural abilities, the result of thousands of years of elven refinement.",
+        "Your gnome character has certain characteristics in common with all other gnomes.",
+        "Your half-elf character has some qualities in common with elves and some that are unique to half-elves.",
+        "Your half-orc character has certain traits deriving from your orc ancestry.",
+        "Your halfling character has a number of traits in common with all other halflings.",
+        "It's hard to make generalizations about humans, but your human character has these traits.",
+        "Tieflings share certain racial traits as a result of their infernal descent." };
+
+        List<string> classListdesc = new List<string>() {
+        "Class Description",
+        "In battle, you fight with primal ferocity. For some barbarians, rage is a means to an end–that end being violence.",
+        "Whether singing folk ballads in taverns or elaborate compositions in royal courts, bards use their gifts to hold audiences spellbound.",
+        "Clerics act as conduits of divine power.",
+        "Druids venerate the forces of nature themselves. Druids holds certain plants and animals to be sacred, and most druids are devoted to one of the many nature deities",
+        "Different fighters choose different approaches to perfecting their fighting prowess, but they all end up perfecting it.",
+        "Coming from monasteries, monks are masters of martial arts combat and meditators with the ki living forces.",
+        "Paladins are the ideal of the knight in shining armor; they uphold ideals of justice, virtue, and order and use righteous might to meet their ends.",
+        "Acting as a bulwark between civilization and the terrors of the wilderness, rangers study, track, and hunt their favored enemies.",
+        "Rogues have many features in common, including their emphasis on perfecting their skills, their precise and deadly approach to combat, and their increasingly quick reflexes.",
+        "An event in your past, or in the life of a parent or ancestor, left an indelible mark on you, infusing you with arcane magic. As a sorcerer the power of your magic relies on your ability to project your will into the world.",
+        "You struck a bargain with an otherworldly being of your choice: the Archfey, the Fiend, or the Great Old One who has imbued you with mystical powers, granted you knowledge of occult lore, bestowed arcane research and magic on you and thus has given you facility with spells",
+        "The study of wizardry is ancient, stretching back to the earliest mortal discoveries of magic. As a student of arcane magic, you have a spellbook containing spells that show glimmerings of your true power which is a catalyst for your mastery over certain spells."};
+
+
+        List<string> alignmentList = new List<string>()
+        {
+        };
+        
         private Text t_Strength;
         private Button b_Roll_Strength;
 
@@ -33,6 +72,7 @@ namespace CS583
         private Text t_Wisdom;
         private Button b_Roll_Wisdom;
 
+        PlayerInfo pm = new PlayerInfo();
 
 
         void Start()
@@ -69,22 +109,55 @@ namespace CS583
             t_Constitution = GameObject.Find("t_Constitution").GetComponent<Text>();
             b_Roll_Constitution = GameObject.Find("b_Roll_Constitution").GetComponent<Button>();
             b_Roll_Constitution.onClick.AddListener(CallBack_Roll_Constitution);
+
+                        t_Constitution = GameObject.Find("t_Constitution").GetComponent<Text>();
+            b_Roll_Constitution = GameObject.Find("b_Roll_Constitution").GetComponent<Button>();
+            b_Roll_Constitution.onClick.AddListener(CallBack_Roll_Constitution);
+
+            //Fetch the Dropdown GameObject
+            dropdownRace = GameObject.Find("Dropdown_Race").GetComponent<Dropdown>();
+            //Add listener for when the value of the Dropdown changes, to take action
+            dropdownRace.onValueChanged.AddListener(DropdownRaceValueChanged);
+
+            dropdownRace = GameObject.Find("Dropdown_Class").GetComponent<Dropdown>();
+            //Add listener for when the value of the Dropdown changes, to take action
+            dropdownRace.onValueChanged.AddListener(DropdownClassValueChanged);
         }
 
 
 
-        private void CallBack_EditEnd()
+        //private void CallBack_EditEnd()
+        //{
+        //    Debug.Log("CallBack_EditEnd was called");
+        //}
+
+        //Ouput the new value of the Dropdown into Text
+        void DropdownRaceValueChanged(int index)
         {
-            Debug.Log("CallBack_EditEnd was called");
+            race_Description.text = "Race: " + raceListdesc[index];
+            if (index > 0)
+            {
+                pm.charRace = raceListdesc[index];
+            }
+
+        }
+
+        void DropdownClassValueChanged(int index)
+        {
+            class_Description.text = "Class: " + classListdesc[index];
+            if (index > 0)
+            {
+                pm.charClass = classListdesc[index];
+            }
         }
 
 
-        private void CallBack_Roll_Wisdom()
+        public void CallBack_Roll_Wisdom()
         {
 
             int wisdomChanged = DiceRollAlgo();
             t_Wisdom.text = wisdomChanged.ToString();
-            //Player_Manager.player.wisdom = wisdomChanged;
+            pm.ability_Wisdom = wisdomChanged;
 
         }
 
@@ -92,6 +165,7 @@ namespace CS583
         {
             int strengthChanged = DiceRollAlgo();
             t_Strength.text = strengthChanged.ToString();
+            pm.ability_Strength = strengthChanged;
 
 
         }
@@ -99,6 +173,7 @@ namespace CS583
         {
             int dexterityChanged = DiceRollAlgo();
             t_Dexterity.text = dexterityChanged.ToString();
+            pm.ability_Dexterity = dexterityChanged;
 
 
         }
@@ -106,6 +181,7 @@ namespace CS583
         {
             int intelligenceChanged = DiceRollAlgo();
             t_Intelligence.text = intelligenceChanged.ToString();
+            pm.ability_Intelligence = intelligenceChanged;
 
 
         }
@@ -113,13 +189,14 @@ namespace CS583
         {
             int charismaChanged = DiceRollAlgo();
             t_Charisma.text = charismaChanged.ToString();
-
+            pm.ability_Charisma = charismaChanged;
 
         }
         public void CallBack_Roll_Constitution()
         {
             int constitutionChanged = DiceRollAlgo();
             t_Constitution.text = constitutionChanged.ToString();
+            pm.ability_Constitution = constitutionChanged;
 
         }
 
