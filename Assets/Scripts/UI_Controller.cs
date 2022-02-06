@@ -71,6 +71,10 @@ namespace CS583
             b_Roll_Constitution.onClick.AddListener(CallBack_Roll_Constitution);
         }
 
+        raceList = new List<Race>() {
+        
+        }
+
         private void CallBack_EditEnd()
         {
             Debug.Log("CallBack_EditEnd was called");
@@ -155,6 +159,13 @@ namespace CS583
             public string languages = "Common";
             public bool nightVision = false;
 
+        }
+
+        public void raceDropdown_IndexChanged(int index)
+        {
+            Race selected = raceList[raceDropdown.value];
+            Player_Manager.player.intelligence = UnityEngine.Random.Range(1, 21);
+            Player_
         }
 
 
