@@ -23,9 +23,9 @@ namespace CS583
             public int hpCurrent;
             public int hpMax;
             public int armorClass;
-            public int walkingSpeed;
-            public int runningSpeed;
-            public int jumpHeight;
+            public float walkingSpeed;
+            public float runningSpeed;
+            public float jumpHeight;
 
             //empty list for item list
             public List<string> itemList = new List<string>() { };

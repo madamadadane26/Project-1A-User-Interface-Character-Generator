@@ -19,11 +19,18 @@ namespace CS583
 
         public Text race_Description;
         public Text class_Description;
+        public Text raceStatInfo;
 
+        public Slider Slider_Walking;
+        public Slider Slider_Running;
+        public Slider Slider_Jumping;
 
+        private Text t_WalkingValue;
+        private Text t_RunningValue;
+        private Text t_JumpingValue;
 
         List<string> raceListdesc = new List<string>() {
-        "Character Description",
+        "Race Description",
         "Your draconic heritage manifests in a variety of traits you share with other dragonborn.",
         "Your dwarf character has an assortment of abilities, part and parcel of dwarven nature.",
         "Your elf character has a variety of natural abilities, the result of thousands of years of elven refinement.",
@@ -33,6 +40,8 @@ namespace CS583
         "Your halfling character has a number of traits in common with all other halflings.",
         "It's hard to make generalizations about humans, but your human character has these traits.",
         "Tieflings share certain racial traits as a result of their infernal descent." };
+
+
 
         List<string> classListdesc = new List<string>() {
         "Class Description",
@@ -53,7 +62,70 @@ namespace CS583
         List<string> alignmentList = new List<string>()
         {
         };
-        
+
+        public class raceStats
+        {
+            Race race1 = new Race()
+            {
+                name = "Dragonborn",
+                languages = "Common, Draconic",
+                nightVision = true,
+            };
+            Race race2 = new Race()
+            {
+                name = "Dwarf",
+
+                languages = "Common, Dwarfish",
+                nightVision = true,
+            };
+            Race race3 = new Race()
+            {
+                name = "Elf",
+
+                languages = "Common, Elfenstien",
+                nightVision = true,
+            };
+            Race race4 = new Race()
+            {
+                name = "Gnome",
+
+                languages = "Common, GnuGnome",
+                nightVision = true,
+            };
+            Race race5 = new Race()
+            {
+                name = "Half-Elf",
+
+                languages = "Common, Elvish, and any language of choice",
+                nightVision = true,
+            };
+            Race race6 = new Race()
+            {
+                name = "Half-Orc",
+
+                languages = "Common, Orc",
+                nightVision = true,
+            };
+            Race race7 = new Race()
+            {
+                name = "Halfling",
+                languages = "Common, Halfling",
+                nightVision = false,
+            };
+            Race race8 = new Race()
+            {
+                name = "Human",
+                languages = "Common and any language of choice",
+                nightVision = false,
+            };
+            Race race9 = new Race()
+            {
+                name = "Tiefling",
+                languages = "Common, Infernal",
+                nightVision = true,
+            };
+        }
+
         private Text t_Strength;
         private Button b_Roll_Strength;
 
@@ -110,7 +182,7 @@ namespace CS583
             b_Roll_Constitution = GameObject.Find("b_Roll_Constitution").GetComponent<Button>();
             b_Roll_Constitution.onClick.AddListener(CallBack_Roll_Constitution);
 
-                        t_Constitution = GameObject.Find("t_Constitution").GetComponent<Text>();
+            t_Constitution = GameObject.Find("t_Constitution").GetComponent<Text>();
             b_Roll_Constitution = GameObject.Find("b_Roll_Constitution").GetComponent<Button>();
             b_Roll_Constitution.onClick.AddListener(CallBack_Roll_Constitution);
 
@@ -118,13 +190,45 @@ namespace CS583
             dropdownRace = GameObject.Find("Dropdown_Race").GetComponent<Dropdown>();
             //Add listener for when the value of the Dropdown changes, to take action
             dropdownRace.onValueChanged.AddListener(DropdownRaceValueChanged);
+            dropdownRace.onValueChanged.AddListener(DropdownRaceStatsChanged);
 
             dropdownRace = GameObject.Find("Dropdown_Class").GetComponent<Dropdown>();
             //Add listener for when the value of the Dropdown changes, to take action
             dropdownRace.onValueChanged.AddListener(DropdownClassValueChanged);
+
+            Slider_Walking = GameObject.Find("Slider_Walking").GetComponent<Slider>();
+            Slider_Running = GameObject.Find("Slider_Running").GetComponent<Slider>();
+            Slider_Jumping = GameObject.Find("Slider_Jumping").GetComponent<Slider>();
+
+            t_WalkingValue = GameObject.Find("t_WalkingValue").GetComponent<Text>();
+            t_RunningValue = GameObject.Find("t_RunningValue").GetComponent<Text>();
+            t_JumpingValue = GameObject.Find("t_JumpingValue").GetComponent<Text>();
+
+            ShowWalkingValue();
+            ShowRunningValue();
+            ShowJumpingValue();
+
+
         }
+        public void ShowWalkingValue()
+        {
+            string sliderWalkMessage = "Walking value = " + Slider_Walking.value;
+            t_WalkingValue.text = sliderWalkMessage;
+            pm.walkingSpeed = Slider_Walking.value;
 
-
+        }
+        public void ShowRunningValue()
+        {
+            string sliderRunMessage = "Running value = " + Slider_Running.value;
+            t_RunningValue.text = sliderRunMessage;
+            pm.runningSpeed = Slider_Running.value;
+        }
+        public void ShowJumpingValue()
+        {
+            string sliderJumpMessage = "Jumping value = " + Slider_Jumping.value;
+            t_JumpingValue.text = sliderJumpMessage;
+            pm.jumpHeight = Slider_Jumping.value;
+        }
 
         //private void CallBack_EditEnd()
         //{
@@ -151,6 +255,15 @@ namespace CS583
             }
         }
 
+        void DropdownRaceStatsChanged(int index) 
+        {
+            ///t_raceStats.text = raceStatsSelected[index];
+            if (index > 0)
+            {
+                pm.charClass = classListdesc[index];
+
+            }
+        }
 
         public void CallBack_Roll_Wisdom()
         {
@@ -223,14 +336,15 @@ namespace CS583
             return outVal = d3List.Sum() + d8List.Sum() + 2;
         }
 
+
+        [System.Serializable]
         public class Race
         {
-            public string Name = "";
-            public string rDescription = "";
-            public int HitPoints = 0;
-            public float runningSpeed = 0;
-            public float walkingSpeed = 0;
-            public float jumpingHeightSpeed = 0;
+            public string name = "";
+            public int HP = 0;
+            public float sRunning = 0;
+            public float sWalking = 0;
+            public float sJumping = 0;
             public string languages = "Common";
             public bool nightVision = false;
 
