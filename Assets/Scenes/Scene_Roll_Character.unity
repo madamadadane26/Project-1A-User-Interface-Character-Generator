@@ -940,13 +940,23 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Option A
+    - m_Text: Select Race
       m_Image: {fileID: 0}
-    - m_Text: Option B
+    - m_Text: Dragonborn
       m_Image: {fileID: 0}
-    - m_Text: Option C
+    - m_Text: Dwarf
       m_Image: {fileID: 0}
-    - m_Text: Option C
+    - m_Text: Elf
+      m_Image: {fileID: 0}
+    - m_Text: Gnome
+      m_Image: {fileID: 0}
+    - m_Text: 'Half-Elf  '
+      m_Image: {fileID: 0}
+    - m_Text: Halfling
+      m_Image: {fileID: 0}
+    - m_Text: 'Human  '
+      m_Image: {fileID: 0}
+    - m_Text: 'Tiefling  '
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1110,11 +1120,31 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: Option A
+    - m_Text: Select Class
       m_Image: {fileID: 0}
-    - m_Text: Option B
+    - m_Text: Barbarian
       m_Image: {fileID: 0}
-    - m_Text: Option C
+    - m_Text: Bard
+      m_Image: {fileID: 0}
+    - m_Text: Cleric
+      m_Image: {fileID: 0}
+    - m_Text: Druid
+      m_Image: {fileID: 0}
+    - m_Text: Fighter
+      m_Image: {fileID: 0}
+    - m_Text: Monk
+      m_Image: {fileID: 0}
+    - m_Text: Paladin
+      m_Image: {fileID: 0}
+    - m_Text: Ranger
+      m_Image: {fileID: 0}
+    - m_Text: Rogue
+      m_Image: {fileID: 0}
+    - m_Text: Sorcerer
+      m_Image: {fileID: 0}
+    - m_Text: Warlock
+      m_Image: {fileID: 0}
+    - m_Text: Wizard
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1482,7 +1512,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Option A
+  m_Text: Select Race
 --- !u!222 &551394570
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2842,7 +2872,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Option A
+  m_Text: Select Class
 --- !u!222 &1081846025
 CanvasRenderer:
   m_ObjectHideFlags: 0
