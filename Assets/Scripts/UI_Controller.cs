@@ -5,21 +5,21 @@ using UnityEngine.UI;
 using System.IO;
 using Random = System.Random;
 using System.Linq;
+using System;
 
 namespace CS583
 {
     public class UI_Controller : Player_Manager
     {
 
-        public Text CharNameout;
-        public InputField CharNameIn;
+        string PlayerName;
+
 
         public Dropdown dropdownRace;
         public Dropdown dropdownClass;
 
         public Text race_Description;
         public Text class_Description;
-        public Text raceStatInfo;
 
         public Slider Slider_Walking;
         public Slider Slider_Running;
@@ -28,6 +28,35 @@ namespace CS583
         private Text t_WalkingValue;
         private Text t_RunningValue;
         private Text t_JumpingValue;
+
+        public Text t_RaceStats;
+
+        private Text t_Strength;
+        private Button b_Roll_Strength;
+
+        private Text t_Intelligence;
+        private Button b_Roll_Intelligence;
+
+        private Text t_Dexterity;
+        private Button b_Roll_Dexterity;
+
+        private Text t_Charisma;
+        private Button b_Roll_Charisma;
+
+        private Text t_Constitution;
+        private Button b_Roll_Constitution;
+
+        private Text t_Wisdom;
+        private Button b_Roll_Wisdom;
+
+        private Text JsonLoad;
+        private Button b_JsonOutput;
+
+        private InputField Json_InputField, CharacterNameInput;
+
+        private Text pName;
+
+        PlayerInfo pm = new PlayerInfo();
 
         List<string> raceListdesc = new List<string>() {
         "Race Description",
@@ -63,101 +92,60 @@ namespace CS583
         {
         };
 
-        public class raceStats
-        {
-            Race race1 = new Race()
-            {
-                name = "Dragonborn",
-                languages = "Common, Draconic",
-                nightVision = true,
-            };
-            Race race2 = new Race()
-            {
-                name = "Dwarf",
 
-                languages = "Common, Dwarfish",
-                nightVision = true,
-            };
-            Race race3 = new Race()
-            {
-                name = "Elf",
 
-                languages = "Common, Elfenstien",
-                nightVision = true,
-            };
-            Race race4 = new Race()
-            {
-                name = "Gnome",
-
-                languages = "Common, GnuGnome",
-                nightVision = true,
-            };
-            Race race5 = new Race()
-            {
-                name = "Half-Elf",
-
-                languages = "Common, Elvish, and any language of choice",
-                nightVision = true,
-            };
-            Race race6 = new Race()
-            {
-                name = "Half-Orc",
-
-                languages = "Common, Orc",
-                nightVision = true,
-            };
-            Race race7 = new Race()
-            {
-                name = "Halfling",
-                languages = "Common, Halfling",
-                nightVision = false,
-            };
-            Race race8 = new Race()
-            {
-                name = "Human",
-                languages = "Common and any language of choice",
-                nightVision = false,
-            };
-            Race race9 = new Race()
-            {
-                name = "Tiefling",
-                languages = "Common, Infernal",
-                nightVision = true,
-            };
-        }
-
-        private Text t_Strength;
-        private Button b_Roll_Strength;
-
-        private Text t_Intelligence;
-        private Button b_Roll_Intelligence;
-
-        private Text t_Dexterity;
-        private Button b_Roll_Dexterity;
-
-        private Text t_Charisma;
-        private Button b_Roll_Charisma;
-
-        private Text t_Constitution;
-        private Button b_Roll_Constitution;
-
-        private Text t_Wisdom;
-        private Button b_Roll_Wisdom;
-
-        PlayerInfo pm = new PlayerInfo();
 
 
         void Start()
         {
 
-            CharNameout.text = "Player McLamer";
             initUIReferences();
+            selectedRace();
+
+        }
+        //what am i doing
+        public class Race
+        {
+            private string name;
+            private string languages;
+            private bool nightVision;
+
+            public Race(string name, string languages, bool nightVision)
+            {
+                this.name = name;
+                this.languages = languages;
+                this.nightVision = nightVision;
+
+            }
+            public string Name { get { return name; } set { name = value; } }
+            public string Languages { get { return languages; } set { languages = value; } }
+
+            public bool NightVision { get { return nightVision; } set { nightVision = value; } }
+
 
 
         }
 
+        void selectedRace()
+        {
+            List<Race> RaceList = new List<Race>();
+
+            RaceList.Add(new Race("Dragonborn", "Common, Draconic", true));
+            RaceList.Add(new Race("Dwarf", "Common, Dwarfish", true));
+            RaceList.Add(new Race("Elf", "Common, Elfenstien", true));
+            RaceList.Add(new Race("Gnome", "Common, Gnomish", true));
+            RaceList.Add(new Race("Half-Elf", "Common, Elvish, and any language of choice", true));
+            RaceList.Add(new Race("Half-Orc", "Common, Orc", true));
+            RaceList.Add(new Race("Halfling", "Common, Halfling", false));
+            RaceList.Add(new Race("Human", "Common, and any language of choice", false));
+            RaceList.Add(new Race("Tiefling", "Common, Infernal", true));
+
+
+        }
         private void initUIReferences()
         {
+            //playerName = GameObject.Find("CharacterNameInput").GetComponent<InputField>;
+
             t_Wisdom = GameObject.Find("t_Wisdom").GetComponent<Text>();
             b_Roll_Wisdom = GameObject.Find("b_Roll_Wisdom").GetComponent<Button>();
             b_Roll_Wisdom.onClick.AddListener(CallBack_Roll_Wisdom);
@@ -190,7 +178,9 @@ namespace CS583
             dropdownRace = GameObject.Find("Dropdown_Race").GetComponent<Dropdown>();
             //Add listener for when the value of the Dropdown changes, to take action
             dropdownRace.onValueChanged.AddListener(DropdownRaceValueChanged);
-            dropdownRace.onValueChanged.AddListener(DropdownRaceStatsChanged);
+            t_RaceStats = GameObject.Find("t_RaceStats").GetComponent<Text>();
+
+            //dropdownRace.onValueChanged.AddListener(DropdownRaceStatsChanged);
 
             dropdownRace = GameObject.Find("Dropdown_Class").GetComponent<Dropdown>();
             //Add listener for when the value of the Dropdown changes, to take action
@@ -208,8 +198,18 @@ namespace CS583
             ShowRunningValue();
             ShowJumpingValue();
 
+            // = GameObject.Find("Json_InputField").GetComponent<InputField>;
+            //JsonLoad = GameObject.Find("JsonLoad").GetComponent<Text>;
+            b_JsonOutput = GameObject.Find("b_JsonOutput").GetComponent<Button>();
+            b_JsonOutput.onClick.AddListener(CallBack_GenerateJsonCharacter);
+
 
         }
+
+        //raceDropdown_IndexChanger(0);
+
+  
+
         public void ShowWalkingValue()
         {
             string sliderWalkMessage = "Walking value = " + Slider_Walking.value;
@@ -230,11 +230,6 @@ namespace CS583
             pm.jumpHeight = Slider_Jumping.value;
         }
 
-        //private void CallBack_EditEnd()
-        //{
-        //    Debug.Log("CallBack_EditEnd was called");
-        //}
-
         //Ouput the new value of the Dropdown into Text
         void DropdownRaceValueChanged(int index)
         {
@@ -252,16 +247,6 @@ namespace CS583
             if (index > 0)
             {
                 pm.charClass = classListdesc[index];
-            }
-        }
-
-        void DropdownRaceStatsChanged(int index) 
-        {
-            ///t_raceStats.text = raceStatsSelected[index];
-            if (index > 0)
-            {
-                pm.charClass = classListdesc[index];
-
             }
         }
 
@@ -313,6 +298,42 @@ namespace CS583
 
         }
 
+        //assign the current XP
+        public void XPCurrentValChanged(string x)
+        {
+            pm.expCurrent = int.Parse(x);
+            Debug.Log("expCurrent = " + pm.expCurrent);
+        }
+
+        //assign the max XP
+        public void ExpMaxValChanged(string x)
+        {
+            pm.expMax = int.Parse(x);
+            Debug.Log("expMax = " + pm.expMax);
+        }
+
+        //assign the current HP
+        public void HpCurrentValChanged(string x)
+        {
+            pm.hpCurrent = int.Parse(x);
+            Debug.Log("hpCurrent = " + pm.hpCurrent);
+        }
+
+        //assign the max HP
+        public void HpMaxValChanged(string x)
+        {
+            pm.hpMax = int.Parse(x);
+            Debug.Log("hpMax = " + pm.hpMax);
+        }
+
+        //assign the armor class points
+        public void ArmorClassValChanged(string x)
+        {
+            pm.armorClass = int.Parse(x);
+            Debug.Log("armorClass = " + pm.armorClass);
+        }
+
+
         /// Prof. Price "RollProfPriceCrazzy2020Algorythm ref
         private int DiceRollAlgo()
         {
@@ -336,17 +357,10 @@ namespace CS583
             return outVal = d3List.Sum() + d8List.Sum() + 2;
         }
 
-
-        [System.Serializable]
-        public class Race
+        public void CallBack_GenerateJsonCharacter()
         {
-            public string name = "";
-            public int HP = 0;
-            public float sRunning = 0;
-            public float sWalking = 0;
-            public float sJumping = 0;
-            public string languages = "Common";
-            public bool nightVision = false;
+            JsonLoad.text = JsonUtility.ToJson(pm);
+            Debug.Log("called JSON");
 
         }
 
