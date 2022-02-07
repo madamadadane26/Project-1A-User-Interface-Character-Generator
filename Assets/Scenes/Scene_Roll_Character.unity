@@ -1341,7 +1341,7 @@ MonoBehaviour:
     - m_Text: Halfling
       m_Image: {fileID: 21300000, guid: 9ab918724c880b547af3825a864e2097, type: 3}
     - m_Text: 'Human  '
-      m_Image: {fileID: 0}
+      m_Image: {fileID: 21300000, guid: 57809e1968cb11a4c9bf25603311f936, type: 3}
     - m_Text: 'Tiefling  '
       m_Image: {fileID: 21300000, guid: 4033600a48a5d3c45ada4a9d7e2e38a7, type: 3}
   m_OnValueChanged:
@@ -1679,7 +1679,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8ad11a35aed90404580b08cb325f5fa3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d1f76927451d64b4a9e818a1a6dce95f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
