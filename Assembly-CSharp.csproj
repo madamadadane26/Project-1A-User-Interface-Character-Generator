@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\UI_Controller.cs" />
     <Compile Include="Assets\Scripts\Player_Manager.cs" />
+    <Compile Include="Assets\Scripts\GenerateCharJSON.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

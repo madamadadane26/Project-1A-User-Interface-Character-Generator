@@ -12,11 +12,11 @@ namespace CS583
     public class UI_Controller : Player_Manager
     {
 
-        string PlayerName;
-
+        public static string PlayerName;
 
         public Dropdown dropdownRace;
         public Dropdown dropdownClass;
+        public Dropdown Dropdown_Alignment;
 
         public Text race_Description;
         public Text class_Description;
@@ -49,12 +49,12 @@ namespace CS583
         private Text t_Wisdom;
         private Button b_Roll_Wisdom;
 
-        private Text JsonLoad;
+        public Text Placeholder_OutputJson;
         private Button b_JsonOutput;
 
-        private InputField Json_InputField, CharacterNameInput;
-
-        private Text pName;
+        public InputField json_InputField;
+        public InputField CharacterNameInput;
+        public Text pName;
 
         PlayerInfo pm = new PlayerInfo();
 
@@ -87,12 +87,8 @@ namespace CS583
         "You struck a bargain with an otherworldly being of your choice: the Archfey, the Fiend, or the Great Old One who has imbued you with mystical powers, granted you knowledge of occult lore, bestowed arcane research and magic on you and thus has given you facility with spells",
         "The study of wizardry is ancient, stretching back to the earliest mortal discoveries of magic. As a student of arcane magic, you have a spellbook containing spells that show glimmerings of your true power which is a catalyst for your mastery over certain spells."};
 
-
-        List<string> alignmentList = new List<string>()
-        {
-        };
-
-
+        List<string> alignmentList = new List<string>() { "Select Alignment", "Lawful good", "Neutral good", "Chaotic good", 
+        "Lawful neutral", "Neutral", "Chaotic neutral", "Lawful evil", "Neutral evil", "Chaotic evil" };
 
 
 
@@ -100,51 +96,17 @@ namespace CS583
         {
 
             initUIReferences();
-            selectedRace();
+
+            if (PlayerName != null)
+                CharacterNameInput.text = PlayerName;
 
         }
-        //what am i doing
-        public class Race
-        {
-            private string name;
-            private string languages;
-            private bool nightVision;
+ 
+   
 
-            public Race(string name, string languages, bool nightVision)
-            {
-                this.name = name;
-                this.languages = languages;
-                this.nightVision = nightVision;
-
-            }
-            public string Name { get { return name; } set { name = value; } }
-            public string Languages { get { return languages; } set { languages = value; } }
-
-            public bool NightVision { get { return nightVision; } set { nightVision = value; } }
-
-
-
-        }
-
-        void selectedRace()
-        {
-            List<Race> RaceList = new List<Race>();
-
-            RaceList.Add(new Race("Dragonborn", "Common, Draconic", true));
-            RaceList.Add(new Race("Dwarf", "Common, Dwarfish", true));
-            RaceList.Add(new Race("Elf", "Common, Elfenstien", true));
-            RaceList.Add(new Race("Gnome", "Common, Gnomish", true));
-            RaceList.Add(new Race("Half-Elf", "Common, Elvish, and any language of choice", true));
-            RaceList.Add(new Race("Half-Orc", "Common, Orc", true));
-            RaceList.Add(new Race("Halfling", "Common, Halfling", false));
-            RaceList.Add(new Race("Human", "Common, and any language of choice", false));
-            RaceList.Add(new Race("Tiefling", "Common, Infernal", true));
-
-
-        }
+        
         private void initUIReferences()
         {
-            //playerName = GameObject.Find("CharacterNameInput").GetComponent<InputField>;
 
             t_Wisdom = GameObject.Find("t_Wisdom").GetComponent<Text>();
             b_Roll_Wisdom = GameObject.Find("b_Roll_Wisdom").GetComponent<Button>();
@@ -178,6 +140,12 @@ namespace CS583
             dropdownRace = GameObject.Find("Dropdown_Race").GetComponent<Dropdown>();
             //Add listener for when the value of the Dropdown changes, to take action
             dropdownRace.onValueChanged.AddListener(DropdownRaceValueChanged);
+            //dropdownRace.onValueChanged.AddListener(DropdownRaceValueChangedForStats);
+
+            Dropdown_Alignment = GameObject.Find("Dropdown_Alignment").GetComponent<Dropdown>();
+            Dropdown_Alignment.onValueChanged.AddListener(DropdownAlignmentValueChanged);
+
+
             t_RaceStats = GameObject.Find("t_RaceStats").GetComponent<Text>();
 
             //dropdownRace.onValueChanged.AddListener(DropdownRaceStatsChanged);
@@ -185,6 +153,7 @@ namespace CS583
             dropdownRace = GameObject.Find("Dropdown_Class").GetComponent<Dropdown>();
             //Add listener for when the value of the Dropdown changes, to take action
             dropdownRace.onValueChanged.AddListener(DropdownClassValueChanged);
+
 
             Slider_Walking = GameObject.Find("Slider_Walking").GetComponent<Slider>();
             Slider_Running = GameObject.Find("Slider_Running").GetComponent<Slider>();
@@ -198,17 +167,33 @@ namespace CS583
             ShowRunningValue();
             ShowJumpingValue();
 
-            // = GameObject.Find("Json_InputField").GetComponent<InputField>;
-            //JsonLoad = GameObject.Find("JsonLoad").GetComponent<Text>;
+            //json_InputField = GameObject.Find("Json_InputField").GetComponent<InputField>();
+            //doesn't work for some reason
+
+            Placeholder_OutputJson = GameObject.Find("Placeholder_OutputJson").GetComponent<Text>();
+
+            CharacterNameInput = GameObject.Find("CharacterNameInput").GetComponent<InputField>();
+            CharacterNameInput.onValueChanged.AddListener(playerNameInput);
+
             b_JsonOutput = GameObject.Find("b_JsonOutput").GetComponent<Button>();
-            b_JsonOutput.onClick.AddListener(CallBack_GenerateJsonCharacter);
+            b_JsonOutput.onClick.AddListener(GenerateCharJSON);
 
 
         }
 
+
+
         //raceDropdown_IndexChanger(0);
 
-  
+
+        public void playerNameInput(string newName)
+        {
+            //pName.text = newName;
+            pm.charName = newName;
+            Debug.Log("charName = " + pm.charName);
+
+
+        }
 
         public void ShowWalkingValue()
         {
@@ -233,20 +218,32 @@ namespace CS583
         //Ouput the new value of the Dropdown into Text
         void DropdownRaceValueChanged(int index)
         {
+            
+
             race_Description.text = "Race: " + raceListdesc[index];
             if (index > 0)
             {
                 pm.charRace = raceListdesc[index];
-            }
+                Debug.Log("charRace = " + pm.charRace);
 
+            }
         }
 
-        void DropdownClassValueChanged(int index)
+        public void DropdownClassValueChanged(int index)
         {
             class_Description.text = "Class: " + classListdesc[index];
             if (index > 0)
             {
                 pm.charClass = classListdesc[index];
+            }
+        }
+
+        public void DropdownAlignmentValueChanged(int index)
+        {
+            if (index > 0)
+            {
+                pm.alignment = alignmentList[index];
+                Debug.Log("testing");
             }
         }
 
@@ -357,14 +354,24 @@ namespace CS583
             return outVal = d3List.Sum() + d8List.Sum() + 2;
         }
 
-        public void CallBack_GenerateJsonCharacter()
+        public void GenerateCharJSON()
         {
-            JsonLoad.text = JsonUtility.ToJson(pm);
-            Debug.Log("called JSON");
+            json_InputField.text = JsonUtility.ToJson(pm);
 
         }
 
+        [System.Serializable]
+        public class Race
+        {
+            public string name { get; set; }
+            public int HP = 0;
+            public float sRunning = 0;
+            public float sWalking = 0;
+            public float sJumping = 0;
+            public string languages { get; set; }
+            public bool nightVision { get; set; }
 
+        }
 
         //quit button
         public void quitButton()
@@ -377,5 +384,6 @@ namespace CS583
         }
 
     }
+ 
 
 }

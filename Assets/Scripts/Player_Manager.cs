@@ -5,13 +5,20 @@ namespace CS583
 {
     public class Player_Manager : MonoBehaviour
     {
+
+
+
+ 
         //variables to be referenced
-        protected class PlayerInfo
+
+        [System.Serializable]
+        public class PlayerInfo
         {
             public string charRace;
             public string charClass;
             public string charName;
             public string alignment;
+            public string nightVision;
             public float ability_Strength;
             public float ability_Constitution;
             public float ability_Dexterity;
@@ -31,5 +38,6 @@ namespace CS583
             public List<string> itemList = new List<string>() { };
         }
     }
+
 
 }
