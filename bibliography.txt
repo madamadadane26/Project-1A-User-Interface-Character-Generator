@@ -1,1 +1,2 @@
-artwork by me
+-All artwork by me
+- Not good code/not all components working
