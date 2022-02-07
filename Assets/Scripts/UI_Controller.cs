@@ -87,9 +87,21 @@ namespace CS583
         "You struck a bargain with an otherworldly being of your choice: the Archfey, the Fiend, or the Great Old One who has imbued you with mystical powers, granted you knowledge of occult lore, bestowed arcane research and magic on you and thus has given you facility with spells",
         "The study of wizardry is ancient, stretching back to the earliest mortal discoveries of magic. As a student of arcane magic, you have a spellbook containing spells that show glimmerings of your true power which is a catalyst for your mastery over certain spells."};
 
-        List<string> alignmentList = new List<string>() { "Select Alignment", "Lawful good", "Neutral good", "Chaotic good", 
+        List<string> alignmentList = new List<string>() { "Select Alignment", "Lawful good", "Neutral good", "Chaotic good",
         "Lawful neutral", "Neutral", "Chaotic neutral", "Lawful evil", "Neutral evil", "Chaotic evil" };
 
+        List<string> raceStats = new List<string>() {
+        "RaceStats",
+        "Name: Dragonborn, Languages: Common, Draconic, Nightvision: True",
+        "Name: Dwarf, Languages: Common, Dwarfish, Nightvision: True",
+        "Name: Elf, Languages: Common, Elvish, Nightvision: True",
+        "Name: Gnome, Languages: Common, Gnomish, Nightvision: True",
+        "Name: Half-Elf, Languages: Common, Elvish, and any language of choice, Nightvision: True",
+        "Name: Half-Orc, Languages: Common, Orc, Nightvision: True",
+        "Name: Halfling, Languages: Common, Halfing, Nightvision: False",
+        "Name: Human, Languages: Common, and any language of choice, Nightvision: False",
+        "Name: Tiefling, Languages: Common, Infernal, Nightvision: True",
+        };
 
 
         void Start()
@@ -101,6 +113,9 @@ namespace CS583
                 CharacterNameInput.text = PlayerName;
 
         }
+
+        
+
  
    
 
@@ -183,6 +198,7 @@ namespace CS583
 
 
 
+
         //raceDropdown_IndexChanger(0);
 
 
@@ -218,8 +234,8 @@ namespace CS583
         //Ouput the new value of the Dropdown into Text
         void DropdownRaceValueChanged(int index)
         {
-            
 
+            t_RaceStats.text = "Stats: " + raceStats[index];
             race_Description.text = "Race: " + raceListdesc[index];
             if (index > 0)
             {
@@ -363,13 +379,13 @@ namespace CS583
         [System.Serializable]
         public class Race
         {
-            public string name { get; set; }
+            public string raceName = "";
             public int HP = 0;
             public float sRunning = 0;
             public float sWalking = 0;
             public float sJumping = 0;
-            public string languages { get; set; }
-            public bool nightVision { get; set; }
+            public string languages = "";
+            public bool nightVision = false;
 
         }
 

@@ -11,14 +11,13 @@ namespace CS583
  
         //variables to be referenced
 
-        [System.Serializable]
         public class PlayerInfo
         {
             public string charRace;
             public string charClass;
+            public string raceName;
             public string charName;
             public string alignment;
-            public string nightVision;
             public float ability_Strength;
             public float ability_Constitution;
             public float ability_Dexterity;
@@ -33,6 +32,7 @@ namespace CS583
             public float walkingSpeed;
             public float runningSpeed;
             public float jumpHeight;
+
 
             //empty list for item list
             public List<string> itemList = new List<string>() { };
