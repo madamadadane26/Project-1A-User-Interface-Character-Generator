@@ -4,7 +4,11 @@
 PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 22
+<<<<<<< HEAD
   productGUID: b080ab58b98ea86488f52907c59b23b2
+=======
+  productGUID: 955e586eb8cb0824c9986540a456e76b
+>>>>>>> bf3ddab49adc2f1dd50af0e184144f12294ca72f
   AndroidProfiler: 0
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
@@ -13,7 +17,11 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
+<<<<<<< HEAD
   productName: CS583_S22Proj_1B_Nguyen_Jasmine
+=======
+  productName: cs583_s22_nguyen_jasmine_project1a
+>>>>>>> bf3ddab49adc2f1dd50af0e184144f12294ca72f
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
