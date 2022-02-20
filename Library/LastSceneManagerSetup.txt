@@ -1,5 +1,9 @@
 sceneSetups:
+<<<<<<< HEAD
 - path: Assets/Scenes/SampleScene.unity
+=======
+- path: Assets/Scenes/Scene_Roll_Character.unity
+>>>>>>> bf3ddab49adc2f1dd50af0e184144f12294ca72f
   isLoaded: 1
   isActive: 1
   isSubScene: 0
